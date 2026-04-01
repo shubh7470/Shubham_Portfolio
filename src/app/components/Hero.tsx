@@ -2,6 +2,7 @@ import { useRef, useEffect, useState, useMemo } from 'react';
 import { motion } from 'motion/react';
 import { Github, Mail, MapPin, Phone, Download, ArrowDown, Sparkles } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import ComputersCanvas from './canvas/Computers';
 
 function useTypewriter(words: string[], speed = 80) {
   const [displayText, setDisplayText] = useState('');
@@ -167,8 +168,13 @@ B.Sc Mathematics - Govt. V.Y.T. PG College, Durg (2019-2022) | 86%`;
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
       style={{ background: isDark ? '#050510' : 'linear-gradient(135deg, #f0f4ff 0%, #e8eeff 50%, #f5f0ff 100%)' }}
     >
-      {/* Animated Canvas Background */}
-      <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none" />
+      {/* 3D Computer Canvas */}
+      <div className="absolute inset-0 z-0 opacity-60 pointer-events-auto">
+        <ComputersCanvas />
+      </div>
+
+      {/* Animated Canvas Background (Stars and Nebula) */}
+      <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none z-0" />
 
       {/* Grid overlay */}
       {isDark && (
