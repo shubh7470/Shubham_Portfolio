@@ -31,74 +31,12 @@ export function Navbar() {
   };
 
   const downloadResume = () => {
-    const resumeData = `SHUBHAM MOURYA
-Full Stack Developer
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-📞 +91 7470449162  |  📧 shubh7470@gmail.com
-📍 Bhilai, C.G - 490011  |  🔗 github.com/shubh7470
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-PROFILE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Passionate Full Stack Developer with 1+ year of experience building and deploying
-scalable web applications using AI and modern web technologies. Familiar with cloud
-platforms and interested in working on real-world projects using AI, TypeScript,
-React.js, Node.js, Express.js, and MongoDB.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-WORK EXPERIENCE
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Full Stack Developer | GS3 Solution Pvt. Ltd., Kolkata, West Bengal
-Apr 2025 - Present
-
-• Lead a development team to design and build scalable web applications using MERN Stack.
-• Collaborated with cross-functional teams to integrate AI-driven features improving
-  system efficiency and user engagement.
-• Managed full project lifecycle: design → development → deployment.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-PROJECTS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1. Edusathi LMS (Learning Management System)
-   Tech: MERN, Tailwind CSS, Node.js, Express.js, MongoDB
-   • Built a multi-tenant SAAS LMS for schools, colleges, and institutes.
-   • Implemented complete academic lifecycle with enrollment, exams, marks, results.
-   🔗 https://edusathi.net
-
-2. ShubhMart (E-Commerce Management System)
-   Tech: React.js, Node.js, Express.js, MongoDB, Bootstrap
-   • Developed admin panel with Razorpay payment integration.
-   • Enhanced UX with dynamic carts and wishlists.
-   🔗 https://shubhmart.vercel.app
-
-3. BookurEvents.com (Event Planning Platform)
-   Tech: MERN, Tailwind CSS, Node.js, Express.js, MongoDB
-   • Built full-stack event planning platform to connect users with vendors/venues.
-   • Implemented vendor authentication, slot management & live search.
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-SKILLS
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Frontend: HTML/CSS, JavaScript, TypeScript, React.js, Tailwind CSS, Bootstrap
-Backend:  Node.js, Express.js, MongoDB, PHP, MySQL
-Cloud:    Vercel, Render, AWS, Docker, Postman, GitHub
-
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-EDUCATION
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-MCA - Rungta College of Engineering and Technology, Bhilai  (2022-2024) | 70%
-B.Sc Mathematics - Govt. V.Y.T. PG Autonomous College, Durg  (2019-2022) | 86%
-`;
-    const blob = new Blob([resumeData], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'Shubham_Mourya_Resume.txt';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    const link = document.createElement('a');
+    link.href = '/Shubham.pdf';
+    link.download = 'Shubham_Mourya_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const navBg = isScrolled

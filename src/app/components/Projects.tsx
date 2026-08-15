@@ -4,6 +4,18 @@ import { useRef, useState } from 'react';
 import { ExternalLink, Github, Code, Layers } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
 
+const PlayStoreIcon = ({ size = 16 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M3,20.5V3.5C3,2.91 3.34,2.39 3.84,2.15L13.69,12L3.84,21.85C3.34,21.6 3,21.09 3,20.5M16.81,15.12L6.05,21.34L14.54,12.85L16.81,15.12M20.16,10.81C20.5,11.08 20.75,11.5 20.75,12C20.75,12.5 20.5,12.92 20.16,13.19L17.89,14.5L15.39,12L17.89,9.5L20.16,10.81M6.05,2.66L16.81,8.88L14.54,11.15L6.05,2.66Z" />
+  </svg>
+);
+
+const AppStoreIcon = ({ size = 16 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+    <path d="M18.71,19.5C17.88,20.74 17,21.95 15.66,21.97C14.32,22 13.89,21.18 12.37,21.18C10.84,21.18 10.37,21.95 9.099,22C7.789,22.05 6.8,20.68 5.96,19.47C4.25,17 2.94,12.45 4.7,9.39C5.57,7.87 7.13,6.91 8.82,6.88C10.1,6.86 11.32,7.75 12.11,7.75C12.89,7.75 14.37,6.68 15.92,6.84C16.57,6.87 18.39,7.1 19.56,8.82C19.47,8.88 17.39,10.1 17.41,12.63C17.44,15.65 20.06,16.66 20.09,16.67C20.06,16.74 19.67,18.11 18.71,19.5M13,3.5C13.73,2.67 14.94,2.04 15.94,2C16.07,3.17 15.6,4.35 14.9,5.19C14.21,6.04 13.07,6.7 11.95,6.61C11.8,5.46 12.36,4.26 13,3.5Z" />
+  </svg>
+);
+
 export function Projects() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, amount: 0.1 });
@@ -13,59 +25,51 @@ export function Projects() {
   const projects = [
     {
       id: 1,
-      title: 'Edusathi LMS',
-      subtitle: 'Learning Management System',
-      description: 'A multi-tenant SAAS LMS for schools, colleges, and institutes. Features complete academic lifecycle including enrollment, exams, marks, result publishing, and level-wise student promotion.',
-      tech: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'Tailwind CSS'],
-      link: 'https://edusathi.net',
+      title: 'Karmanisht',
+      subtitle: 'Multi Local Service Provider App',
+      description: 'Built a multi-category local services marketplace app connecting users with various local service providers. Developed backend APIs with Node.js and PostgreSQL for bookings, service listings, and provider management.',
+      tech: ['React Native', 'Expo', 'Node.js', 'Express.js', 'PostgreSQL', 'Firebase'],
+      link: 'https://karmanisht.com',
+      playStore: 'https://play.google.com/store/apps/details?id=com.karmanisht',
+      appStore: 'https://apps.apple.com/in/app/karmanisht/id6781247473',
       github: null,
       gradient: 'linear-gradient(135deg, #3b82f6, #06b6d4)',
       glowColor: 'rgba(59,130,246,0.5)',
       accentColor: '#3b82f6',
-      bgPattern: '🎓',
-      features: ['Multi-tenant SAAS', 'Batch Management', 'Exam & Results', 'Student Promotion'],
+      bgPattern: '📱',
+      features: ['Multi Local Marketplace', 'Provider Management', 'Bookings & Listings API', 'Live on Play & App Store'],
     },
     {
       id: 2,
-      title: 'Vedaa Classes',
-      subtitle: 'LMS SaaS Portal',
-      description: 'A live educational platform created as a client realization of the Edusathi LMS architecture. This project includes a comprehensive admin panel and robust student features.',
-      tech: ['React.js', 'Node.js', 'MongoDB', 'Express.js', 'Tailwind CSS'],
-      link: 'https://vedaaclasses.in',
-      github: null,
-      gradient: 'linear-gradient(135deg, #10b981, #059669)',
-      glowColor: 'rgba(16,185,129,0.5)',
-      accentColor: '#10b981',
-      bgPattern: '📘',
-      features: ['Admin Panel', 'Student Portal', 'SaaS Client', 'Live Platform'],
-    },
-    {
-      id: 3,
-      title: 'ShubhMart',
+      title: 'Hindustan Mart',
       subtitle: 'E-Commerce Platform',
-      description: 'Full-featured e-commerce platform with admin panel for product management, Razorpay payment integration, and enhanced UX with dynamic carts and wishlists.',
-      tech: ['React.js', 'Node.js', 'MongoDB', 'Bootstrap', 'Razorpay API'],
-      link: 'https://shubhmart.vercel.app',
-      github: 'https://github.com/shubh7470',
+      description: 'Built a full-fledged e-commerce mobile app covering all product categories, from browsing to checkout. Implemented backend order, product, and catalog management using Node.js and PostgreSQL.',
+      tech: ['React Native', 'Expo', 'Node.js', 'Express.js', 'PostgreSQL', 'Firebase'],
+      link: 'https://hindustanmart.com',
+      playStore: 'https://play.google.com/store/apps/details?id=com.hindustaanmart&hl=en_IN',
+      appStore: 'https://apps.apple.com/in/app/hindustaan-mart/id6781711735',
+      github: null,
       gradient: 'linear-gradient(135deg, #8b5cf6, #ec4899)',
       glowColor: 'rgba(139,92,246,0.5)',
       accentColor: '#8b5cf6',
       bgPattern: '🛒',
-      features: ['Admin Dashboard', 'Razorpay Payments', 'Dynamic Cart', 'Wishlist'],
+      features: ['Mobile E-Commerce App', 'Catalog & Orders', 'PostgreSQL Backend', 'Live on Play & App Store'],
     },
     {
-      id: 4,
-      title: 'BookurEvents',
-      subtitle: 'Event Planning Platform',
-      description: 'Full-stack event planning platform connecting users with vendors and venues. Features vendor authentication, slot management, live search, and seamless booking experience.',
-      tech: ['React.js', 'Node.js', 'Express.js', 'MongoDB', 'Tailwind CSS'],
-      link: null,
+      id: 3,
+      title: 'Edusathi LMS',
+      subtitle: 'Learning Management System',
+      description: 'Built a multi-tenant SAAS LMS for schools, colleges, and institutes with course, batch, student, exam, result, and promotion management. Implemented complete academic lifecycle including enrollment, marks entry, result publishing, and live-wise student promotion.',
+      tech: ['MERN', 'Next.js', 'Tailwind CSS', 'Node.js', 'Express.js', 'MongoDB'],
+      link: 'https://edusathi.net',
+      playStore: null,
+      appStore: null,
       github: null,
-      gradient: 'linear-gradient(135deg, #f59e0b, #ef4444)',
-      glowColor: 'rgba(245,158,11,0.5)',
-      accentColor: '#f59e0b',
-      bgPattern: '🎪',
-      features: ['Vendor Auth', 'Slot Management', 'Live Search', 'Event Booking'],
+      gradient: 'linear-gradient(135deg, #10b981, #059669)',
+      glowColor: 'rgba(16,185,129,0.5)',
+      accentColor: '#10b981',
+      bgPattern: '🎓',
+      features: ['Multi-tenant SAAS LMS', 'Academic Lifecycle', 'Exam & Results', 'Student Promotion'],
     },
   ];
 
@@ -278,26 +282,27 @@ export function Projects() {
                   </div>
 
                   {/* Action buttons */}
-                  <div className="flex gap-3">
+                  <div className="flex flex-col gap-2.5">
+                    {/* Primary Web Link */}
                     {project.link ? (
                       <motion.a
                         href={project.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        whileHover={{ scale: 1.03 }}
-                        whileTap={{ scale: 0.97 }}
-                        className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold text-white transition-all duration-300"
+                        whileHover={{ scale: 1.02 }}
+                        whileTap={{ scale: 0.98 }}
+                        className="flex items-center justify-center gap-2 py-2.5 px-4 rounded-xl text-sm font-semibold text-white transition-all duration-300"
                         style={{
                           background: project.gradient,
                           boxShadow: isDark ? `0 4px 15px ${project.glowColor}` : `0 4px 15px ${project.accentColor}30`,
                         }}
                       >
                         <ExternalLink size={15} />
-                        Live Demo
+                        Website ({new URL(project.link).hostname})
                       </motion.a>
                     ) : (
                       <div
-                        className="flex-1 flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold"
+                        className="flex items-center justify-center gap-2 py-2.5 rounded-xl text-sm font-semibold"
                         style={{
                           background: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)',
                           color: isDark ? '#6b7280' : '#9ca3af',
@@ -307,22 +312,47 @@ export function Projects() {
                         <span>🔒 Private Project</span>
                       </div>
                     )}
-                    {project.github && (
-                      <motion.a
-                        href={project.github}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        whileHover={{ scale: 1.08 }}
-                        whileTap={{ scale: 0.92 }}
-                        className="p-2.5 rounded-xl transition-all duration-300"
-                        style={{
-                          background: isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.05)',
-                          border: isDark ? '1px solid rgba(255,255,255,0.1)' : '1px solid rgba(0,0,0,0.1)',
-                          color: isDark ? '#9ca3af' : '#6b7280',
-                        }}
-                      >
-                        <Github size={18} />
-                      </motion.a>
+
+                    {/* App Store & Play Store Links if available */}
+                    {(project.playStore || project.appStore) && (
+                      <div className="flex gap-2">
+                        {project.playStore && (
+                          <motion.a
+                            href={project.playStore}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.97 }}
+                            className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-semibold transition-all duration-300"
+                            style={{
+                              background: isDark ? 'rgba(59,130,246,0.12)' : 'rgba(59,130,246,0.08)',
+                              border: isDark ? '1px solid rgba(59,130,246,0.3)' : '1px solid rgba(59,130,246,0.25)',
+                              color: isDark ? '#60a5fa' : '#2563eb',
+                            }}
+                          >
+                            <PlayStoreIcon size={14} />
+                            Play Store
+                          </motion.a>
+                        )}
+                        {project.appStore && (
+                          <motion.a
+                            href={project.appStore}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            whileHover={{ scale: 1.03 }}
+                            whileTap={{ scale: 0.97 }}
+                            className="flex-1 flex items-center justify-center gap-2 py-2 px-3 rounded-xl text-xs font-semibold transition-all duration-300"
+                            style={{
+                              background: isDark ? 'rgba(168,85,247,0.12)' : 'rgba(168,85,247,0.08)',
+                              border: isDark ? '1px solid rgba(168,85,247,0.3)' : '1px solid rgba(168,85,247,0.25)',
+                              color: isDark ? '#c084fc' : '#9333ea',
+                            }}
+                          >
+                            <AppStoreIcon size={14} />
+                            App Store
+                          </motion.a>
+                        )}
+                      </div>
                     )}
                   </div>
                 </div>

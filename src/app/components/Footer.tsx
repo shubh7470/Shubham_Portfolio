@@ -19,9 +19,9 @@ export function Footer() {
   ];
 
   const projects = [
+    { name: 'Karmanisht', href: 'https://karmanisht.com' },
+    { name: 'Hindustan Mart', href: 'https://hindustanmart.com' },
     { name: 'Edusathi LMS', href: 'https://edusathi.net' },
-    { name: 'ShubhMart', href: 'https://shubhmart.vercel.app' },
-    { name: 'BookurEvents', href: '#' },
   ];
 
   const scrollTo = (href: string) => {
@@ -67,7 +67,7 @@ export function Footer() {
               &lt;SM /&gt;
             </div>
             <p className="text-gray-400 text-sm leading-relaxed mb-5">
-              Full Stack Developer passionate about building scalable web applications with MERN Stack & AI integrations.
+              Full Stack Developer passionate about building web and mobile apps with React Native, Next.js, Node.js & PostgreSQL.
             </p>
             <div className="flex flex-col gap-2">
               {[

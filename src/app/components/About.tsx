@@ -45,27 +45,27 @@ export function About() {
 
   const skillGroups = [
     {
-      title: 'Frontend Development',
+      title: 'Frontend & Mobile',
       icon: Code2,
       color: 'linear-gradient(90deg, #3b82f6, #60a5fa)',
       glow: 'rgba(59,130,246,0.4)',
       skills: [
-        { name: 'React.js / Next.js', level: 90 },
+        { name: 'React.js / Next.js', level: 92 },
+        { name: 'React Native / Expo', level: 90 },
         { name: 'TypeScript / JavaScript', level: 88 },
-        { name: 'Tailwind CSS / CSS / HTML', level: 95 },
-        { name: 'UI Libraries (MUI/Shadcn)', level: 85 },
+        { name: 'Tailwind CSS / HTML / CSS', level: 95 },
       ],
     },
     {
-      title: 'Backend Development',
+      title: 'Backend & Databases',
       icon: Server,
       color: 'linear-gradient(90deg, #8b5cf6, #a78bfa)',
       glow: 'rgba(139,92,246,0.4)',
       skills: [
-        { name: 'Node.js / Express.js', level: 85 },
-        { name: 'MongoDB / Mongoose / MySQL', level: 85 },
-        { name: 'PHP / RESTful APIs', level: 80 },
-        { name: 'Authentication / JWT', level: 90 },
+        { name: 'Node.js / Express.js', level: 90 },
+        { name: 'PostgreSQL / Prisma / MySQL', level: 88 },
+        { name: 'MongoDB / Mongoose / Redis', level: 85 },
+        { name: 'REST APIs / Socket.io', level: 92 },
       ],
     },
     {
@@ -74,10 +74,10 @@ export function About() {
       color: 'linear-gradient(90deg, #06b6d4, #67e8f9)',
       glow: 'rgba(6,182,212,0.4)',
       skills: [
-        { name: 'Deployment (Vercel/Render)', level: 88 },
-        { name: 'GitHub / Git / CI-CD', level: 90 },
-        { name: 'Docker / AWS Basics', level: 70 },
-        { name: 'Postman / AI Tools', level: 85 },
+        { name: 'Firebase / GCP / AWS', level: 85 },
+        { name: 'Vercel / Render Deployment', level: 90 },
+        { name: 'Git / GitHub / Docker', level: 88 },
+        { name: 'Postman / AI Tools', level: 90 },
       ],
     },
   ];
@@ -172,21 +172,20 @@ export function About() {
               </h3>
             </div>
             <p className={`leading-relaxed mb-4 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-              Passionate <span className={isDark ? 'text-blue-400 font-medium' : 'text-blue-600 font-medium'}>Full Stack Developer</span> with 1+ year of experience building 
-              and deploying scalable web applications using AI and modern web technologies.
+              Passionate <span className={isDark ? 'text-blue-400 font-medium' : 'text-blue-600 font-medium'}>Full Stack Developer</span> with 2+ years of experience building 
+              and deploying web and mobile apps using JavaScript, React.js, React Native, Next.js, Node.js, and PostgreSQL/MongoDB.
             </p>
             <p className={`leading-relaxed ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-              Familiar with cloud platforms and deeply interested in working on real-world projects 
-              using <span className={isDark ? 'text-purple-400 font-medium' : 'text-purple-600 font-medium'}>TypeScript, React.js, Node.js, Express.js</span>, and MongoDB.
+              Interested in working on real-world projects using <span className={isDark ? 'text-purple-400 font-medium' : 'text-purple-600 font-medium'}>AI and modern web technologies</span>.
             </p>
 
             {/* Quick facts */}
             <div className="mt-6 grid grid-cols-2 gap-3">
               {[
-                { label: 'Experience', value: '1+ Years' },
+                { label: 'Experience', value: '2+ Years' },
                 { label: 'Location', value: 'Bhilai, C.G' },
                 { label: 'Availability', value: 'Open to Work' },
-                { label: 'Focus', value: 'MERN + AI' },
+                { label: 'Focus', value: 'Full Stack & Mobile' },
               ].map(fact => (
                 <div
                   key={fact.label}
@@ -236,10 +235,10 @@ export function About() {
                   color: '#3b82f6',
                 },
                 {
-                  degree: 'Bachelor of Science — Mathematics',
+                  degree: 'Bachelor of Science (B.Sc) in Mathematics',
                   college: 'Govt. V.Y.T. PG Autonomous College, Durg',
                   year: '2019 – 2022',
-                  score: '86%',
+                  score: '80%',
                   color: '#8b5cf6',
                 },
               ].map((edu, i) => (
