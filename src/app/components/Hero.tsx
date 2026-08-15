@@ -41,7 +41,7 @@ export function Hero() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const animFrameRef = useRef<number>(0);
 
-  const roles = ['Full Stack Developer', 'MERN Stack Expert', 'AI Integrations Builder', 'TypeScript Developer'];
+  const roles = ['Full Stack Developer', 'React Native & Mobile App Dev', 'Node.js & PostgreSQL Developer', 'MERN & Next.js Developer'];
   const typedRole = useTypewriter(roles, 80);
 
   const particles = useMemo(() =>
@@ -120,45 +120,18 @@ export function Hero() {
   }, [isDark]);
 
   const downloadResume = () => {
-    const resumeData = `SHUBHAM MOURYA - Full Stack Developer
-Contact: +91 7470449162 | shubh7470@gmail.com | github.com/shubh7470
-Location: Bhilai, C.G - 490011
-
-EXPERIENCE
-Full Stack Developer | GS3 Solution Pvt. Ltd. (Apr 2025 - Present)
-• Lead team building scalable MERN Stack web applications
-• Integrated AI-driven features improving system efficiency
-• Managed full project lifecycle: design → development → deployment
-
-PROJECTS
-• Edusathi LMS - Multi-tenant SAAS LMS (edusathi.net)
-• ShubhMart - E-Commerce with Razorpay integration (shubhmart.vercel.app)
-• BookurEvents.com - Full-stack event planning platform
-
-SKILLS
-Frontend: HTML/CSS, JavaScript, TypeScript, React.js, Tailwind CSS
-Backend: Node.js, Express.js, MongoDB, PHP, MySQL
-Cloud: Vercel, Render, AWS, Docker, GitHub
-
-EDUCATION
-MCA - Rungta College of Engineering and Technology (2022-2024) | 70%
-B.Sc Mathematics - Govt. V.Y.T. PG College, Durg (2019-2022) | 86%`;
-
-    const blob = new Blob([resumeData], { type: 'text/plain' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'Shubham_Mourya_Resume.txt';
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    const link = document.createElement('a');
+    link.href = '/Shubham.pdf';
+    link.download = 'Shubham_Mourya_Resume.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   };
 
   const stats = [
-    { value: '1+', label: 'Years Exp' },
-    { value: '3+', label: 'Projects' },
-    { value: '10+', label: 'Technologies' },
+    { value: '2+', label: 'Years Exp' },
+    { value: '5+', label: 'Web & Mobile Apps' },
+    { value: '12+', label: 'Technologies' },
     { value: '∞', label: 'Passion' },
   ];
 
@@ -307,8 +280,7 @@ B.Sc Mathematics - Govt. V.Y.T. PG College, Durg (2019-2022) | 86%`;
           transition={{ duration: 0.6, delay: 0.6 }}
           className={`text-base sm:text-lg max-w-2xl mx-auto mb-10 leading-relaxed ${isDark ? 'text-gray-400' : 'text-gray-600'}`}
         >
-          Passionate about building <span className={isDark ? 'text-blue-400 font-medium' : 'text-blue-600 font-medium'}>scalable web apps</span> with MERN Stack & AI integrations. 
-          Turning complex ideas into elegant, performant digital experiences.
+          Passionate <span className={isDark ? 'text-blue-400 font-medium' : 'text-blue-600 font-medium'}>Full Stack Developer</span> with 2+ years of experience building & deploying web and mobile apps using <span className={isDark ? 'text-purple-400 font-medium' : 'text-purple-600 font-medium'}>React Native, Next.js, Node.js & PostgreSQL</span>.
         </motion.p>
 
         {/* CTA Buttons */}
