@@ -139,26 +139,63 @@ export function Hero() {
     <section
       id="home"
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      style={{ background: isDark ? '#050510' : 'linear-gradient(135deg, #f0f4ff 0%, #e8eeff 50%, #f5f0ff 100%)' }}
+      style={{
+        background: isDark
+          ? 'radial-gradient(ellipse at 50% 0%, rgba(30, 41, 59, 0.5) 0%, #0b0f19 75%)'
+          : 'radial-gradient(ellipse at 50% 0%, rgba(224, 231, 255, 0.6) 0%, #f8fafc 75%)',
+      }}
     >
       {/* 3D Computer Canvas */}
       <div className="absolute inset-0 z-0 opacity-60 pointer-events-auto">
         <ComputersCanvas />
       </div>
 
-      {/* Animated Canvas Background (Stars and Nebula) */}
-      <canvas ref={canvasRef} className="absolute inset-0 pointer-events-none z-0" />
+      {/* Subtle Studio Technical Grid */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.04] dark:opacity-[0.06]"
+        style={{
+          backgroundImage: isDark
+            ? `radial-gradient(rgba(255, 255, 255, 0.4) 1px, transparent 1px)`
+            : `radial-gradient(rgba(0, 0, 0, 0.4) 1px, transparent 1px)`,
+          backgroundSize: '32px 32px',
+        }}
+      />
 
-      {/* Grid overlay */}
-      {isDark && (
-        <div
-          className="absolute inset-0 pointer-events-none opacity-[0.03]"
-          style={{
-            backgroundImage: `linear-gradient(rgba(139,92,246,1) 1px, transparent 1px), linear-gradient(90deg, rgba(139,92,246,1) 1px, transparent 1px)`,
-            backgroundSize: '60px 60px',
-          }}
-        />
-      )}
+      {/* Floating Tech Stack Badges (Spread Across Screen) */}
+      <div className="hidden md:block absolute inset-0 pointer-events-none z-20 overflow-hidden">
+        {[
+          { name: 'React Native', top: '16%', left: '4%', glow: '#3b82f6', delay: 0 },
+          { name: 'Next.js', top: '22%', right: '5%', glow: '#06b6d4', delay: 1.5 },
+          { name: 'Node.js', top: '48%', left: '3%', glow: '#22c55e', delay: 0.8 },
+          { name: 'PostgreSQL', top: '54%', right: '4%', glow: '#6366f1', delay: 2.2 },
+          { name: 'TypeScript', top: '75%', left: '7%', glow: '#a855f7', delay: 1.2 },
+          { name: 'Docker & Cloud', top: '78%', right: '8%', glow: '#ec4899', delay: 1.8 },
+        ].map(tech => (
+          <motion.div
+            key={tech.name}
+            className="absolute px-3.5 py-2 rounded-full text-xs font-mono font-semibold backdrop-blur-md shadow-xl pointer-events-auto cursor-default transition-transform"
+            style={{
+              top: tech.top,
+              left: tech.left,
+              right: tech.right,
+              background: isDark ? 'rgba(15, 23, 42, 0.85)' : 'rgba(255, 255, 255, 0.9)',
+              border: isDark ? `1px solid ${tech.glow}66` : `1px solid ${tech.glow}44`,
+              color: isDark ? '#f1f5f9' : '#0f172a',
+              boxShadow: isDark ? `0 0 20px ${tech.glow}30` : `0 6px 18px ${tech.glow}20`,
+            }}
+            initial={{ opacity: 0, scale: 0.7 }}
+            animate={{ opacity: 1, scale: 1, y: [0, -12, 0] }}
+            transition={{
+              y: { duration: 4.5, repeat: Infinity, ease: 'easeInOut', delay: tech.delay },
+              opacity: { duration: 0.8 },
+            }}
+            whileHover={{ scale: 1.15, boxShadow: `0 0 30px ${tech.glow}88` }}
+          >
+            <span className="inline-block w-2 h-2 rounded-full mr-2 animate-pulse" style={{ backgroundColor: tech.glow }} />
+            {tech.name}
+          </motion.div>
+        ))}
+      </div>
 
       {/* Floating particles */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
@@ -338,12 +375,13 @@ export function Hero() {
           </motion.a>
         </motion.div>
 
+
         {/* Stats */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 1.0 }}
-          className="flex flex-wrap justify-center gap-6 mb-12"
+          className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 max-w-3xl mx-auto mb-12"
         >
           {stats.map((stat, i) => (
             <motion.div
@@ -351,17 +389,22 @@ export function Hero() {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 1.0 + i * 0.1 }}
-              className="text-center px-6 py-3 rounded-2xl"
+              whileHover={{ y: -4, scale: 1.04 }}
+              className="text-center px-4 py-4 rounded-2xl transition-all duration-300"
               style={{
-                background: isDark ? 'rgba(139,92,246,0.08)' : 'rgba(59,130,246,0.06)',
-                border: isDark ? '1px solid rgba(139,92,246,0.2)' : '1px solid rgba(59,130,246,0.2)',
+                background: isDark
+                  ? 'linear-gradient(135deg, rgba(139,92,246,0.12), rgba(6,182,212,0.08))'
+                  : 'linear-gradient(135deg, rgba(255,255,255,0.9), rgba(238,242,255,0.9))',
+                border: isDark ? '1px solid rgba(139,92,246,0.3)' : '1px solid rgba(59,130,246,0.25)',
+                backdropFilter: 'blur(16px)',
+                boxShadow: isDark ? '0 10px 30px rgba(0,0,0,0.3)' : '0 10px 25px rgba(59,130,246,0.08)',
               }}
             >
               <div
-                className="text-2xl font-bold"
+                className="text-2xl sm:text-3xl font-extrabold"
                 style={{
                   background: isDark
-                    ? 'linear-gradient(135deg, #60a5fa, #a78bfa)'
+                    ? 'linear-gradient(135deg, #60a5fa, #a78bfa, #67e8f9)'
                     : 'linear-gradient(135deg, #2563eb, #7c3aed)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
@@ -371,7 +414,9 @@ export function Hero() {
               >
                 {stat.value}
               </div>
-              <div className={`text-sm ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>{stat.label}</div>
+              <div className={`text-xs sm:text-sm font-medium mt-1 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                {stat.label}
+              </div>
             </motion.div>
           ))}
         </motion.div>

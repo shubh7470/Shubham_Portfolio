@@ -1,11 +1,7 @@
 import { motion } from 'motion/react';
-import { Github, Mail, Phone, MapPin, Heart, ArrowUp, Code2 } from 'lucide-react';
-
+import { Github, Mail, Phone, MapPin, Heart, ArrowUp, Code2, Linkedin, Instagram, Twitter } from 'lucide-react';
 
 export function Footer() {
-  // Theme is locked to dark mode via ThemeContext
-  // const { isDark } = useTheme();
-
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
@@ -24,13 +20,44 @@ export function Footer() {
     { name: 'Edusathi LMS', href: 'https://edusathi.net' },
   ];
 
+  const socialLinks = [
+    {
+      name: 'GitHub',
+      icon: Github,
+      href: 'https://github.com/shubh7470',
+      color: '#e2e8f0',
+      hoverGlow: 'rgba(255,255,255,0.3)',
+    },
+    {
+      name: 'LinkedIn',
+      icon: Linkedin,
+      href: 'https://www.linkedin.com/in/shubham-mourya-b990b2323?utm_source=share_via&utm_content=profile&utm_medium=member_android',
+      color: '#0A66C2',
+      hoverGlow: 'rgba(10,102,194,0.4)',
+    },
+    {
+      name: 'Twitter / X',
+      icon: Twitter,
+      href: 'https://x.com/shubh7470',
+      color: '#38bdf8',
+      hoverGlow: 'rgba(56,189,248,0.4)',
+    },
+    {
+      name: 'Instagram',
+      icon: Instagram,
+      href: 'https://www.instagram.com/itz_shubh_1106?utm_source=qr&stkn=MWpxb3Q4eTJ4cGhjZA==',
+      color: '#E4405F',
+      hoverGlow: 'rgba(228,64,95,0.4)',
+    },
+  ];
+
   const scrollTo = (href: string) => {
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
   const bgStyle = {
-    background: 'linear-gradient(180deg, #080818 0%, #030308 100%)',
+    background: 'linear-gradient(180deg, #0b0f19 0%, #070a12 100%)',
   };
 
   return (
@@ -69,7 +96,9 @@ export function Footer() {
             <p className="text-gray-400 text-sm leading-relaxed mb-5">
               Full Stack Developer passionate about building web and mobile apps with React Native, Next.js, Node.js & PostgreSQL.
             </p>
-            <div className="flex flex-col gap-2">
+            
+            {/* Direct Contacts */}
+            <div className="flex flex-col gap-2 mb-6">
               {[
                 { icon: Mail, text: 'shubh7470@gmail.com', href: 'mailto:shubh7470@gmail.com' },
                 { icon: Phone, text: '+91 7470449162', href: 'tel:+917470449162' },
@@ -84,6 +113,37 @@ export function Footer() {
                   {text}
                 </a>
               ))}
+            </div>
+
+            {/* Social Connect Icons */}
+            <div>
+              <p className="text-xs font-mono text-gray-500 uppercase tracking-wider mb-2.5">
+                Connect With Me
+              </p>
+              <div className="flex items-center gap-3">
+                {socialLinks.map(social => {
+                  const Icon = social.icon;
+                  return (
+                    <motion.a
+                      key={social.name}
+                      href={social.href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      whileHover={{ scale: 1.15, y: -2 }}
+                      whileTap={{ scale: 0.95 }}
+                      className="p-2.5 rounded-xl transition-all duration-300"
+                      style={{
+                        background: 'rgba(255,255,255,0.06)',
+                        border: '1px solid rgba(255,255,255,0.1)',
+                        color: social.color,
+                      }}
+                      title={social.name}
+                    >
+                      <Icon size={18} />
+                    </motion.a>
+                  );
+                })}
+              </div>
             </div>
           </motion.div>
 
@@ -129,7 +189,7 @@ export function Footer() {
               className="text-white font-semibold mb-5"
               style={{ fontFamily: "'Space Grotesk', sans-serif" }}
             >
-              Projects
+              Featured Projects
             </h4>
             <ul className="space-y-2.5">
               {projects.map(project => (
@@ -151,7 +211,7 @@ export function Footer() {
             </ul>
           </motion.div>
 
-          {/* Tech Stack */}
+          {/* Tech Stack & Social Links */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -165,8 +225,8 @@ export function Footer() {
               <Code2 size={16} className="text-blue-400" />
               Tech Stack
             </h4>
-            <div className="flex flex-wrap gap-2">
-              {['React.js', 'Node.js', 'TypeScript', 'MongoDB', 'Express.js', 'Tailwind', 'Docker', 'AWS'].map(tech => (
+            <div className="flex flex-wrap gap-2 mb-6">
+              {['React Native', 'Next.js', 'Node.js', 'PostgreSQL', 'TypeScript', 'MongoDB', 'Express.js', 'Tailwind'].map(tech => (
                 <span
                   key={tech}
                   className="text-xs px-2.5 py-1 rounded-lg text-gray-400 transition-all duration-200 hover:text-blue-400 cursor-default"
@@ -181,20 +241,36 @@ export function Footer() {
               ))}
             </div>
 
-            {/* GitHub CTA */}
-            <div className="mt-6">
+            {/* Social Buttons */}
+            <div className="space-y-2">
               <a
-                href="https://github.com/shubh7470"
+                href="https://www.linkedin.com/in/shubham-mourya-b990b2323?utm_source=share_via&utm_content=profile&utm_medium=member_android"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium text-white transition-all duration-300 hover:scale-105"
+                className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl text-xs font-medium text-white transition-all duration-300 hover:scale-105"
                 style={{
-                  background: 'rgba(255,255,255,0.08)',
-                  border: '1px solid rgba(255,255,255,0.12)',
+                  background: 'rgba(10, 102, 194, 0.15)',
+                  border: '1px solid rgba(10, 102, 194, 0.4)',
+                  color: '#60a5fa',
                 }}
               >
-                <Github size={16} />
-                github.com/shubh7470
+                <Linkedin size={15} />
+                <span>LinkedIn Profile</span>
+              </a>
+
+              <a
+                href="https://www.instagram.com/itz_shubh_1106?utm_source=qr&stkn=MWpxb3Q4eTJ4cGhjZA=="
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl text-xs font-medium text-white transition-all duration-300 hover:scale-105"
+                style={{
+                  background: 'rgba(228, 64, 95, 0.15)',
+                  border: '1px solid rgba(228, 64, 95, 0.4)',
+                  color: '#f472b6',
+                }}
+              >
+                <Instagram size={15} />
+                <span>Instagram Profile</span>
               </a>
             </div>
           </motion.div>

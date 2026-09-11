@@ -17,7 +17,10 @@ function PortfolioContent() {
       className={isDark ? 'dark' : ''}
       style={{
         fontFamily: "'Space Grotesk', 'Inter', sans-serif",
-        background: isDark ? '#050510' : '#f0f4ff',
+        background: isDark
+          ? '#0b0f19'
+          : '#f8fafc',
+        color: isDark ? '#e2e8f0' : '#0f172a',
         minHeight: '100vh',
         transition: 'background 0.4s ease',
       }}
@@ -34,9 +37,9 @@ function PortfolioContent() {
         position="bottom-right"
         toastOptions={{
           style: {
-            background: isDark ? '#0d0d20' : '#ffffff',
-            border: isDark ? '1px solid rgba(139,92,246,0.4)' : '1px solid #e2e8f0',
-            color: isDark ? '#e2e8f0' : '#1e293b',
+            background: isDark ? '#111827' : '#ffffff',
+            border: isDark ? '1px solid rgba(139,92,246,0.3)' : '1px solid #e2e8f0',
+            color: isDark ? '#e2e8f0' : '#0f172a',
           },
         }}
       />

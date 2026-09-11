@@ -1,8 +1,9 @@
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useInView } from 'motion/react';
-import { useRef } from 'react';
-import { GraduationCap, User, Server, Database, Code2 } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { GraduationCap, User, Server, Database, Code2, Terminal, Copy, Check, Sparkles, MapPin, Briefcase } from 'lucide-react';
 import { useTheme } from '../contexts/ThemeContext';
+import { toast } from 'sonner';
 
 interface SkillBarProps {
   skill: string;
@@ -17,14 +18,22 @@ function SkillBar({ skill, level, color, isDark, delay }: SkillBarProps) {
   const isInView = useInView(ref, { once: true, amount: 0.5 });
 
   return (
-    <div ref={ref} className="mb-3">
-      <div className="flex justify-between mb-1">
-        <span className={`text-sm font-medium ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>{skill}</span>
-        <span className={`text-sm ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>{level}%</span>
+    <div ref={ref} className="mb-4">
+      <div className="flex justify-between items-center mb-1.5">
+        <span className={`text-sm font-semibold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>{skill}</span>
+        <span
+          className="text-xs font-mono font-bold px-2 py-0.5 rounded-md"
+          style={{
+            background: isDark ? 'rgba(139,92,246,0.15)' : 'rgba(59,130,246,0.1)',
+            color: isDark ? '#a78bfa' : '#2563eb',
+          }}
+        >
+          {level}%
+        </span>
       </div>
       <div
         className="h-2 rounded-full overflow-hidden"
-        style={{ background: isDark ? 'rgba(255,255,255,0.07)' : 'rgba(0,0,0,0.07)' }}
+        style={{ background: isDark ? 'rgba(255,255,255,0.08)' : 'rgba(0,0,0,0.08)' }}
       >
         <motion.div
           className="h-full rounded-full"
@@ -40,11 +49,31 @@ function SkillBar({ skill, level, color, isDark, delay }: SkillBarProps) {
 
 export function About() {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, amount: 0.15 });
+  const isInView = useInView(ref, { once: true, amount: 0.1 });
   const { isDark } = useTheme();
+  const [copied, setCopied] = useState(false);
+  const [activeTab, setActiveTab] = useState<'all' | 'frontend' | 'backend' | 'cloud'>('all');
 
-  const skillGroups = [
+  const configSnippet = `// shubham.config.ts
+export const developer = {
+  name: "Shubham Mourya",
+  title: "Full Stack & Mobile App Engineer",
+  experience: "2+ Years",
+  coreStack: ["React Native", "Next.js", "Node.js", "PostgreSQL"],
+  database: ["PostgreSQL", "MongoDB", "Redis", "Prisma"],
+  status: "Available for full-time & high-impact projects 🚀",
+};`;
+
+  const copyConfig = () => {
+    navigator.clipboard.writeText(configSnippet);
+    setCopied(true);
+    toast.success('Config snippet copied to clipboard!');
+    setTimeout(() => setCopied(false), 2500);
+  };
+
+  const skillCategories = [
     {
+      id: 'frontend',
       title: 'Frontend & Mobile',
       icon: Code2,
       color: 'linear-gradient(90deg, #3b82f6, #60a5fa)',
@@ -53,49 +82,57 @@ export function About() {
         { name: 'React.js / Next.js', level: 92 },
         { name: 'React Native / Expo', level: 90 },
         { name: 'TypeScript / JavaScript', level: 88 },
-        { name: 'Tailwind CSS / HTML / CSS', level: 95 },
+        { name: 'Tailwind CSS / CSS3', level: 95 },
       ],
     },
     {
+      id: 'backend',
       title: 'Backend & Databases',
       icon: Server,
       color: 'linear-gradient(90deg, #8b5cf6, #a78bfa)',
       glow: 'rgba(139,92,246,0.4)',
       skills: [
         { name: 'Node.js / Express.js', level: 90 },
-        { name: 'PostgreSQL / Prisma / MySQL', level: 88 },
+        { name: 'PostgreSQL / Prisma', level: 88 },
         { name: 'MongoDB / Mongoose / Redis', level: 85 },
-        { name: 'REST APIs / Socket.io', level: 92 },
+        { name: 'REST APIs & Socket.io', level: 92 },
       ],
     },
     {
-      title: 'Cloud & Tools',
+      id: 'cloud',
+      title: 'Cloud & DevOps',
       icon: Database,
       color: 'linear-gradient(90deg, #06b6d4, #67e8f9)',
       glow: 'rgba(6,182,212,0.4)',
       skills: [
         { name: 'Firebase / GCP / AWS', level: 85 },
-        { name: 'Vercel / Render Deployment', level: 90 },
+        { name: 'Vercel & Render Deployments', level: 90 },
         { name: 'Git / GitHub / Docker', level: 88 },
-        { name: 'Postman / AI Tools', level: 90 },
+        { name: 'Postman / API Testing', level: 90 },
       ],
     },
   ];
 
   const cardStyle = {
-    background: isDark ? 'rgba(13,13,32,0.7)' : 'rgba(255,255,255,0.9)',
-    border: isDark ? '1px solid rgba(139,92,246,0.2)' : '1px solid rgba(59,130,246,0.15)',
+    background: isDark
+      ? 'linear-gradient(135deg, rgba(17, 24, 39, 0.75), rgba(15, 23, 42, 0.85))'
+      : 'linear-gradient(135deg, rgba(255, 255, 255, 0.95), rgba(241, 245, 249, 0.9))',
+    border: isDark ? '1px solid rgba(255, 255, 255, 0.08)' : '1px solid rgba(226, 232, 240, 0.8)',
     backdropFilter: 'blur(20px)',
-    boxShadow: isDark ? '0 8px 32px rgba(0,0,0,0.4)' : '0 8px 32px rgba(59,130,246,0.08)',
+    boxShadow: isDark ? '0 12px 40px rgba(0,0,0,0.4)' : '0 12px 32px rgba(0,0,0,0.04)',
   };
+
+  const filteredCategories =
+    activeTab === 'all'
+      ? skillCategories
+      : skillCategories.filter(cat => cat.id === activeTab);
 
   return (
     <section
       id="about"
+      className="relative overflow-hidden"
       style={{
-        background: isDark
-          ? 'linear-gradient(180deg, #050510 0%, #080818 100%)'
-          : 'linear-gradient(180deg, #f0f4ff 0%, #e8eeff 100%)',
+        background: isDark ? 'transparent' : 'transparent',
         padding: '6rem 0',
       }}
     >
@@ -139,7 +176,7 @@ export function About() {
               marginBottom: '1rem',
             }}
           >
-            About Me
+            About Me & Tech Stack
           </h2>
           <div
             className="w-20 h-1 mx-auto rounded-full"
@@ -147,217 +184,334 @@ export function About() {
           />
         </motion.div>
 
-        {/* Profile + Education */}
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
-          {/* Profile */}
+        {/* Bento Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
+          {/* Card 1: Profile & Bio (Span 7) */}
           <motion.div
-            initial={{ x: -50, opacity: 0 }}
-            animate={isInView ? { x: 0, opacity: 1 } : {}}
+            initial={{ y: 40, opacity: 0 }}
+            animate={isInView ? { y: 0, opacity: 1 } : {}}
             transition={{ duration: 0.7, delay: 0.2 }}
-            className="rounded-2xl p-8"
+            whileHover={{ y: -4 }}
+            className="lg:col-span-7 rounded-3xl p-6 sm:p-8 flex flex-col justify-between transition-all duration-300"
             style={cardStyle}
           >
-            <div className="flex items-center gap-3 mb-5">
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center"
-                style={{ background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)' }}
-              >
-                <User size={20} className="text-white" />
-              </div>
-              <h3
-                className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-800'}`}
-                style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-              >
-                Profile
-              </h3>
-            </div>
-            <p className={`leading-relaxed mb-4 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-              Passionate <span className={isDark ? 'text-blue-400 font-medium' : 'text-blue-600 font-medium'}>Full Stack Developer</span> with 2+ years of experience building 
-              and deploying web and mobile apps using JavaScript, React.js, React Native, Next.js, Node.js, and PostgreSQL/MongoDB.
-            </p>
-            <p className={`leading-relaxed ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
-              Interested in working on real-world projects using <span className={isDark ? 'text-purple-400 font-medium' : 'text-purple-600 font-medium'}>AI and modern web technologies</span>.
-            </p>
+            <div>
+              <div className="flex items-center justify-between mb-6">
+                <div className="flex items-center gap-3">
+                  <div
+                    className="w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg"
+                    style={{ background: 'linear-gradient(135deg, #3b82f6, #8b5cf6)' }}
+                  >
+                    <User size={22} className="text-white" />
+                  </div>
+                  <div>
+                    <h3
+                      className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}
+                      style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+                    >
+                      Shubham Mourya
+                    </h3>
+                    <p className={`text-sm ${isDark ? 'text-purple-300' : 'text-blue-600'}`}>
+                      Full Stack & Mobile App Developer
+                    </p>
+                  </div>
+                </div>
 
-            {/* Quick facts */}
-            <div className="mt-6 grid grid-cols-2 gap-3">
-              {[
-                { label: 'Experience', value: '2+ Years' },
-                { label: 'Location', value: 'Bhilai, C.G' },
-                { label: 'Availability', value: 'Open to Work' },
-                { label: 'Focus', value: 'Full Stack & Mobile' },
-              ].map(fact => (
                 <div
-                  key={fact.label}
-                  className="rounded-xl p-3"
+                  className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium"
                   style={{
-                    background: isDark ? 'rgba(139,92,246,0.07)' : 'rgba(59,130,246,0.06)',
-                    border: isDark ? '1px solid rgba(139,92,246,0.15)' : '1px solid rgba(59,130,246,0.15)',
+                    background: isDark ? 'rgba(34,197,94,0.15)' : 'rgba(34,197,94,0.1)',
+                    border: '1px solid rgba(34,197,94,0.4)',
+                    color: isDark ? '#4ade80' : '#16a34a',
                   }}
                 >
-                  <p className={`text-xs mb-1 ${isDark ? 'text-gray-500' : 'text-gray-500'}`}>{fact.label}</p>
-                  <p className={`text-sm font-semibold ${isDark ? 'text-gray-200' : 'text-gray-800'}`}>{fact.value}</p>
+                  <span className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
+                  Open to Opportunities
                 </div>
-              ))}
+              </div>
+
+              <p className={`leading-relaxed mb-4 text-base sm:text-lg ${isDark ? 'text-gray-300' : 'text-gray-700'}`}>
+                I'm a dedicated <span className={isDark ? 'text-blue-400 font-semibold' : 'text-blue-600 font-semibold'}>Full Stack & Mobile App Developer</span> with 2+ years of experience crafting production-ready web and mobile solutions.
+              </p>
+              <p className={`leading-relaxed text-sm sm:text-base ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                Specialized in building scalable cross-platform mobile apps with <span className={isDark ? 'text-purple-400 font-semibold' : 'text-purple-600 font-semibold'}>React Native & Expo</span> and full-stack web platforms using <span className={isDark ? 'text-cyan-400 font-semibold' : 'text-cyan-600 font-semibold'}>Next.js, Node.js, Express & PostgreSQL</span>.
+              </p>
+            </div>
+
+            {/* Quick Facts Pills */}
+            <div className="mt-8 grid grid-cols-2 sm:grid-cols-4 gap-3">
+              {[
+                { icon: Briefcase, label: 'Exp', value: '2+ Years' },
+                { icon: MapPin, label: 'Based In', value: 'Bhilai, CG' },
+                { icon: Code2, label: 'Apps', value: '5+ Live' },
+                { icon: Sparkles, label: 'Passion', value: 'Clean Code' },
+              ].map(fact => {
+                const Icon = fact.icon;
+                return (
+                  <div
+                    key={fact.label}
+                    className="rounded-2xl p-3.5 transition-all duration-300"
+                    style={{
+                      background: isDark ? 'rgba(139,92,246,0.08)' : 'rgba(59,130,246,0.06)',
+                      border: isDark ? '1px solid rgba(139,92,246,0.2)' : '1px solid rgba(59,130,246,0.18)',
+                    }}
+                  >
+                    <div className="flex items-center gap-1.5 text-xs text-gray-500 mb-1">
+                      <Icon size={12} className={isDark ? 'text-purple-400' : 'text-blue-500'} />
+                      <span>{fact.label}</span>
+                    </div>
+                    <p className={`text-sm font-bold ${isDark ? 'text-gray-100' : 'text-gray-900'}`}>
+                      {fact.value}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
           </motion.div>
 
-          {/* Education */}
+          {/* Card 2: Interactive Developer Terminal (Span 5) */}
           <motion.div
-            initial={{ x: 50, opacity: 0 }}
-            animate={isInView ? { x: 0, opacity: 1 } : {}}
-            transition={{ duration: 0.7, delay: 0.4 }}
-            className="rounded-2xl p-8"
-            style={cardStyle}
+            initial={{ y: 40, opacity: 0 }}
+            animate={isInView ? { y: 0, opacity: 1 } : {}}
+            transition={{ duration: 0.7, delay: 0.3 }}
+            whileHover={{ y: -4 }}
+            className="lg:col-span-5 rounded-3xl p-6 flex flex-col justify-between overflow-hidden shadow-2xl transition-all duration-300"
+            style={{
+              background: isDark ? '#0b0c1b' : '#1e1e2e',
+              border: isDark ? '1px solid rgba(139,92,246,0.3)' : '1px solid rgba(59,130,246,0.3)',
+              color: '#cdd6f4',
+            }}
           >
-            <div className="flex items-center gap-3 mb-6">
-              <div
-                className="w-10 h-10 rounded-xl flex items-center justify-center"
-                style={{ background: 'linear-gradient(135deg, #8b5cf6, #06b6d4)' }}
-              >
-                <GraduationCap size={20} className="text-white" />
+            {/* Terminal Top Bar */}
+            <div>
+              <div className="flex items-center justify-between pb-4 mb-4 border-b border-gray-800">
+                <div className="flex items-center gap-2">
+                  <span className="w-3 h-3 rounded-full bg-red-500/80 inline-block" />
+                  <span className="w-3 h-3 rounded-full bg-yellow-500/80 inline-block" />
+                  <span className="w-3 h-3 rounded-full bg-green-500/80 inline-block" />
+                  <span className="text-xs font-mono ml-2 text-gray-400 flex items-center gap-1">
+                    <Terminal size={12} /> shubham.config.ts
+                  </span>
+                </div>
+
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  onClick={copyConfig}
+                  className="flex items-center gap-1.5 text-xs font-mono px-2.5 py-1 rounded-md bg-gray-800 hover:bg-gray-700 text-gray-300 transition-colors"
+                >
+                  {copied ? <Check size={12} className="text-green-400" /> : <Copy size={12} />}
+                  <span>{copied ? 'Copied' : 'Copy'}</span>
+                </motion.button>
               </div>
-              <h3
-                className={`text-xl font-bold ${isDark ? 'text-white' : 'text-gray-800'}`}
-                style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-              >
-                Education
-              </h3>
+
+              {/* Code Snippet */}
+              <pre className="font-mono text-xs sm:text-sm leading-relaxed overflow-x-auto text-blue-300 p-2">
+                <code>
+                  <span className="text-purple-400">export const</span> <span className="text-yellow-300">developer</span> = &#123;{'\n'}
+                  {'  '}<span className="text-blue-400">name</span>: <span className="text-green-300">"Shubham Mourya"</span>,{'\n'}
+                  {'  '}<span className="text-blue-400">title</span>: <span className="text-green-300">"Full Stack & Mobile Engineer"</span>,{'\n'}
+                  {'  '}<span className="text-blue-400">experience</span>: <span className="text-orange-300">"2+ Years"</span>,{'\n'}
+                  {'  '}<span className="text-blue-400">coreStack</span>: [<span className="text-green-300">"React Native"</span>, <span className="text-green-300">"Next.js"</span>, <span className="text-green-300">"Node.js"</span>, <span className="text-green-300">"PostgreSQL"</span>],{'\n'}
+                  {'  '}<span className="text-blue-400">location</span>: <span className="text-green-300">"Bhilai, Chhattisgarh"</span>,{'\n'}
+                  {'  '}<span className="text-blue-400">status</span>: <span className="text-green-300">"Ready to deploy 🚀"</span>{'\n'}
+                  &#125;;
+                </code>
+              </pre>
             </div>
 
-            <div className="space-y-6">
-              {[
-                {
-                  degree: 'Master of Computer Applications (MCA)',
-                  college: 'Rungta College of Engineering & Technology, Bhilai',
-                  year: '2022 – 2024',
-                  score: '70%',
-                  color: '#3b82f6',
-                },
-                {
-                  degree: 'Bachelor of Science (B.Sc) in Mathematics',
-                  college: 'Govt. V.Y.T. PG Autonomous College, Durg',
-                  year: '2019 – 2022',
-                  score: '80%',
-                  color: '#8b5cf6',
-                },
-              ].map((edu, i) => (
-                <motion.div
-                  key={i}
-                  initial={{ y: 50, opacity: 0 }}
-                  whileInView={{ y: 0, opacity: 1 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ 
-                    duration: 0.6, 
-                    delay: 0.2 + i * 0.2,
-                    ease: "easeOut" 
-                  }}
-                  whileHover={{ x: 5 }}
-                  className="relative pl-5 group cursor-default"
-                  style={{ borderLeft: `3px solid ${edu.color}` }}
-                >
-                  <div
-                    className="absolute -left-[7px] top-1 w-3 h-3 rounded-full"
-                    style={{
-                      background: edu.color,
-                      boxShadow: `0 0 10px ${edu.color}88`,
-                    }}
-                  />
-                  <h4
-                    className={`font-bold mb-1 ${isDark ? 'text-white' : 'text-gray-800'}`}
-                    style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-                  >
-                    {edu.degree}
-                  </h4>
-                  <p className={`text-sm mb-1 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{edu.college}</p>
-                  <div className="flex items-center gap-3">
-                    <span
-                      className="text-xs px-2 py-0.5 rounded-full font-medium"
-                      style={{
-                        background: `${edu.color}20`,
-                        color: edu.color,
-                        border: `1px solid ${edu.color}40`,
-                      }}
-                    >
-                      {edu.year}
-                    </span>
-                    <span
-                      className="text-xs px-2 py-0.5 rounded-full font-bold"
-                      style={{
-                        background: 'rgba(16,185,129,0.15)',
-                        color: '#10b981',
-                        border: '1px solid rgba(16,185,129,0.3)',
-                      }}
-                    >
-                      {edu.score}
-                    </span>
-                  </div>
-                </motion.div>
-              ))}
+            <div className="pt-4 mt-4 border-t border-gray-800/80 flex items-center justify-between text-xs font-mono text-gray-400">
+              <span className="flex items-center gap-1.5 text-green-400">
+                <span className="w-2 h-2 rounded-full bg-green-400 animate-ping" />
+                Live Config Active
+              </span>
+              <span>TypeScript 5.0</span>
             </div>
           </motion.div>
         </div>
 
-        {/* Skills Section */}
+        {/* Education Row (Span 12) */}
+        <motion.div
+          initial={{ y: 40, opacity: 0 }}
+          animate={isInView ? { y: 0, opacity: 1 } : {}}
+          transition={{ duration: 0.7, delay: 0.4 }}
+          className="rounded-3xl p-6 sm:p-8 mb-12"
+          style={cardStyle}
+        >
+          <div className="flex items-center gap-3 mb-6">
+            <div
+              className="w-10 h-10 rounded-xl flex items-center justify-center shadow-lg"
+              style={{ background: 'linear-gradient(135deg, #8b5cf6, #06b6d4)' }}
+            >
+              <GraduationCap size={20} className="text-white" />
+            </div>
+            <h3
+              className={`text-xl sm:text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}
+              style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+            >
+              Education & Academic Background
+            </h3>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            {[
+              {
+                degree: 'Master of Computer Applications (MCA)',
+                college: 'Rungta College of Engineering & Technology, Bhilai',
+                year: '2022 – 2024',
+                score: '70%',
+                color: '#3b82f6',
+              },
+              {
+                degree: 'Bachelor of Science (B.Sc) in Mathematics',
+                college: 'Govt. V.Y.T. PG Autonomous College, Durg',
+                year: '2019 – 2022',
+                score: '80%',
+                color: '#8b5cf6',
+              },
+            ].map((edu, i) => (
+              <motion.div
+                key={i}
+                whileHover={{ x: 6 }}
+                className="relative pl-5 py-2 group rounded-xl transition-all"
+                style={{ borderLeft: `3px solid ${edu.color}` }}
+              >
+                <div
+                  className="absolute -left-[7px] top-4 w-3 h-3 rounded-full"
+                  style={{
+                    background: edu.color,
+                    boxShadow: `0 0 12px ${edu.color}`,
+                  }}
+                />
+                <h4
+                  className={`font-bold text-lg mb-1 ${isDark ? 'text-gray-100' : 'text-gray-800'}`}
+                  style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+                >
+                  {edu.degree}
+                </h4>
+                <p className={`text-sm mb-3 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>{edu.college}</p>
+                <div className="flex items-center gap-3">
+                  <span
+                    className="text-xs px-3 py-1 rounded-full font-mono font-medium"
+                    style={{
+                      background: `${edu.color}20`,
+                      color: edu.color,
+                      border: `1px solid ${edu.color}40`,
+                    }}
+                  >
+                    {edu.year}
+                  </span>
+                  <span
+                    className="text-xs px-3 py-1 rounded-full font-mono font-bold"
+                    style={{
+                      background: 'rgba(16,185,129,0.15)',
+                      color: '#10b981',
+                      border: '1px solid rgba(16,185,129,0.3)',
+                    }}
+                  >
+                    {edu.score}
+                  </span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Interactive Skills Matrix Section */}
         <motion.div
           initial={{ y: 50, opacity: 0 }}
           animate={isInView ? { y: 0, opacity: 1 } : {}}
           transition={{ duration: 0.7, delay: 0.5 }}
+          className="rounded-3xl p-6 sm:p-8"
+          style={cardStyle}
         >
-          <h3
-            className={`text-2xl font-bold text-center mb-8 ${isDark ? 'text-white' : 'text-gray-800'}`}
-            style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-          >
-            Technical Skills
-          </h3>
-          <div className="grid md:grid-cols-3 gap-6">
-            {skillGroups.map((group, gi) => {
-              const Icon = group.icon;
-              return (
-                <motion.div
-                  key={group.title}
-                  initial={{ y: 40, opacity: 0 }}
-                  animate={isInView ? { y: 0, opacity: 1 } : {}}
-                  transition={{ duration: 0.6, delay: 0.6 + gi * 0.15 }}
-                  whileHover={{ y: -6 }}
-                  className="rounded-2xl p-6 transition-all duration-300"
-                  style={{
-                    ...cardStyle,
-                    boxShadow: isDark
-                      ? `0 8px 32px rgba(0,0,0,0.4), 0 0 0 1px rgba(139,92,246,0.1)`
-                      : '0 8px 32px rgba(59,130,246,0.08)',
-                  }}
-                >
-                  {/* Group header */}
-                  <div className="flex items-center gap-3 mb-6">
-                    <div
-                      className="w-10 h-10 rounded-xl flex items-center justify-center"
-                      style={{ background: group.color }}
-                    >
-                      <Icon size={20} className="text-white" />
-                    </div>
-                    <h4
-                      className={`font-bold ${isDark ? 'text-white' : 'text-gray-800'}`}
-                      style={{ fontFamily: "'Space Grotesk', sans-serif" }}
-                    >
-                      {group.title}
-                    </h4>
-                  </div>
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8">
+            <div>
+              <h3
+                className={`text-2xl font-bold ${isDark ? 'text-white' : 'text-gray-900'}`}
+                style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+              >
+                Technical Skills & Proficiency
+              </h3>
+              <p className={`text-sm mt-1 ${isDark ? 'text-gray-400' : 'text-gray-600'}`}>
+                Technologies and frameworks used in production applications.
+              </p>
+            </div>
 
-                  {/* Skill bars */}
-                  {group.skills.map((skill, si) => (
-                    <SkillBar
-                      key={skill.name}
-                      skill={skill.name}
-                      level={skill.level}
-                      color={group.color}
-                      isDark={isDark}
-                      delay={0.7 + gi * 0.15 + si * 0.1}
-                    />
-                  ))}
-                </motion.div>
-              );
-            })}
+            {/* Filter Tabs */}
+            <div className="flex flex-wrap gap-2 p-1.5 rounded-2xl bg-black/10 dark:bg-white/5 border border-purple-500/20">
+              {[
+                { id: 'all', label: 'All Stack' },
+                { id: 'frontend', label: 'Frontend & Mobile' },
+                { id: 'backend', label: 'Backend & DB' },
+                { id: 'cloud', label: 'Cloud & Tools' },
+              ].map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => setActiveTab(tab.id as any)}
+                  className={`px-4 py-2 rounded-xl text-xs font-medium transition-all duration-300 ${
+                    activeTab === tab.id
+                      ? isDark
+                        ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/30'
+                        : 'bg-blue-600 text-white shadow-lg shadow-blue-500/30'
+                      : isDark
+                      ? 'text-gray-400 hover:text-white'
+                      : 'text-gray-600 hover:text-gray-900'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Skill Cards Matrix Grid */}
+          <div className="grid md:grid-cols-3 gap-6">
+            <AnimatePresence mode="wait">
+              {filteredCategories.map((group, gi) => {
+                const Icon = group.icon;
+                return (
+                  <motion.div
+                    key={group.title}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.4, delay: gi * 0.1 }}
+                    className="rounded-2xl p-6 transition-all duration-300"
+                    style={{
+                      background: isDark ? 'rgba(13,13,32,0.8)' : 'rgba(255,255,255,0.8)',
+                      border: isDark ? '1px solid rgba(139,92,246,0.2)' : '1px solid rgba(59,130,246,0.2)',
+                    }}
+                  >
+                    <div className="flex items-center gap-3 mb-6">
+                      <div
+                        className="w-10 h-10 rounded-xl flex items-center justify-center shadow-md"
+                        style={{ background: group.color }}
+                      >
+                        <Icon size={20} className="text-white" />
+                      </div>
+                      <h4
+                        className={`font-bold text-base ${isDark ? 'text-white' : 'text-gray-900'}`}
+                        style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+                      >
+                        {group.title}
+                      </h4>
+                    </div>
+
+                    {group.skills.map((skill, si) => (
+                      <SkillBar
+                        key={skill.name}
+                        skill={skill.name}
+                        level={skill.level}
+                        color={group.color}
+                        isDark={isDark}
+                        delay={0.2 + si * 0.08}
+                      />
+                    ))}
+                  </motion.div>
+                );
+              })}
+            </AnimatePresence>
           </div>
         </motion.div>
       </motion.div>

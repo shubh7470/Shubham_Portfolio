@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { useInView } from 'motion/react';
 import { useRef, useState } from 'react';
-import { Mail, Phone, MapPin, Github, Send, CheckCircle, Loader, MessageSquare } from 'lucide-react';
+import { Mail, Phone, MapPin, Github, Send, CheckCircle, Loader, MessageSquare, Copy, Check, Sparkles, Linkedin, Instagram } from 'lucide-react';
 import { toast } from 'sonner';
 import { useTheme } from '../contexts/ThemeContext';
 
@@ -33,6 +33,25 @@ export function Contact() {
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [copiedKey, setCopiedKey] = useState<string | null>(null);
+
+  const presets = [
+    { label: '📱 Mobile App Inquiry', text: 'Mobile App Development Inquiry' },
+    { label: '💼 Full-Time Opportunity', text: 'Full-Time Job Opportunity' },
+    { label: '⚡ Web Development', text: 'Web Application Project' },
+    { label: '👋 Say Hello', text: 'Quick Hello & Connection' },
+  ];
+
+  const handleCopy = (text: string, label: string, e: React.MouseEvent) => {
+    e.preventDefault();
+    e.stopPropagation();
+    navigator.clipboard.writeText(text);
+    setCopiedKey(label);
+    toast.success(`${label} copied to clipboard!`, {
+      description: text,
+    });
+    setTimeout(() => setCopiedKey(null), 2500);
+  };
 
   const validate = (): boolean => {
     const newErrors: FormErrors = {};
@@ -57,8 +76,7 @@ export function Contact() {
     if (!validate()) return;
 
     setIsSubmitting(true);
-    // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 1800));
     setIsSubmitting(false);
     setIsSubmitted(true);
 
@@ -82,33 +100,51 @@ export function Contact() {
 
   const contactItems = [
     {
+      id: 'phone',
       icon: Phone,
       label: 'Phone',
       value: '+91 7470449162',
+      copyValue: '+917470449162',
       href: 'tel:+917470449162',
       gradient: 'linear-gradient(135deg, #3b82f6, #06b6d4)',
       glow: 'rgba(59,130,246,0.4)',
     },
     {
+      id: 'email',
       icon: Mail,
       label: 'Email',
       value: 'shubh7470@gmail.com',
+      copyValue: 'shubh7470@gmail.com',
       href: 'mailto:shubh7470@gmail.com',
       gradient: 'linear-gradient(135deg, #8b5cf6, #ec4899)',
       glow: 'rgba(139,92,246,0.4)',
     },
     {
-      icon: MapPin,
-      label: 'Location',
-      value: 'Bhilai, C.G - 490011',
-      href: '#',
-      gradient: 'linear-gradient(135deg, #f59e0b, #ef4444)',
-      glow: 'rgba(245,158,11,0.4)',
+      id: 'linkedin',
+      icon: Linkedin,
+      label: 'LinkedIn',
+      value: 'linkedin.com/in/shubham-mourya',
+      copyValue: 'https://www.linkedin.com/in/shubham-mourya-b990b2323?utm_source=share_via&utm_content=profile&utm_medium=member_android',
+      href: 'https://www.linkedin.com/in/shubham-mourya-b990b2323?utm_source=share_via&utm_content=profile&utm_medium=member_android',
+      gradient: 'linear-gradient(135deg, #0a66c2, #2563eb)',
+      glow: 'rgba(10,102,194,0.4)',
     },
     {
+      id: 'instagram',
+      icon: Instagram,
+      label: 'Instagram',
+      value: '@itz_shubh_1106',
+      copyValue: 'https://www.instagram.com/itz_shubh_1106?utm_source=qr&stkn=MWpxb3Q4eTJ4cGhjZA==',
+      href: 'https://www.instagram.com/itz_shubh_1106?utm_source=qr&stkn=MWpxb3Q4eTJ4cGhjZA==',
+      gradient: 'linear-gradient(135deg, #e4405f, #ec4899)',
+      glow: 'rgba(228,64,95,0.4)',
+    },
+    {
+      id: 'github',
       icon: Github,
       label: 'GitHub',
       value: 'github.com/shubh7470',
+      copyValue: 'https://github.com/shubh7470',
       href: 'https://github.com/shubh7470',
       gradient: 'linear-gradient(135deg, #6b7280, #111827)',
       glow: 'rgba(107,114,128,0.4)',
@@ -140,9 +176,7 @@ export function Contact() {
     <section
       id="contact"
       style={{
-        background: isDark
-          ? 'linear-gradient(180deg, #050510 0%, #080818 100%)'
-          : 'linear-gradient(180deg, #f0f4ff 0%, #e8f5ff 100%)',
+        background: 'transparent',
         padding: '6rem 0',
       }}
     >
@@ -202,45 +236,60 @@ export function Contact() {
           <div className="lg:col-span-2 space-y-4">
             {contactItems.map((item, index) => {
               const Icon = item.icon;
+              const isCopied = copiedKey === item.label;
+
               return (
-                <motion.a
+                <motion.div
                   key={item.label}
-                  href={item.href}
-                  target={item.href.startsWith('http') ? '_blank' : undefined}
-                  rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
                   initial={{ x: -40, opacity: 0 }}
                   animate={isInView ? { x: 0, opacity: 1 } : {}}
                   transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
                   whileHover={{ x: 5, scale: 1.02 }}
-                  className="flex items-center gap-4 p-4 rounded-2xl transition-all duration-300 group"
+                  className="flex items-center justify-between p-4 rounded-2xl transition-all duration-300 group"
                   style={{
                     background: isDark ? 'rgba(13,13,32,0.7)' : 'rgba(255,255,255,0.9)',
                     border: isDark ? '1px solid rgba(255,255,255,0.07)' : '1px solid rgba(59,130,246,0.1)',
                     backdropFilter: 'blur(20px)',
-                    textDecoration: 'none',
                   }}
                 >
-                  <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
-                    style={{
-                      background: item.gradient,
-                      boxShadow: isDark ? `0 6px 20px ${item.glow}` : `0 4px 15px ${item.glow}`,
-                    }}
+                  <a
+                    href={item.href}
+                    target={item.href.startsWith('http') ? '_blank' : undefined}
+                    rel={item.href.startsWith('http') ? 'noopener noreferrer' : undefined}
+                    className="flex items-center gap-4 flex-1"
+                    style={{ textDecoration: 'none' }}
                   >
-                    <Icon size={20} className="text-white" />
-                  </div>
-                  <div>
-                    <p className={`text-xs font-medium mb-0.5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
-                      {item.label}
-                    </p>
-                    <p
-                      className={`text-sm font-semibold break-all ${isDark ? 'text-gray-200' : 'text-gray-800'}`}
-                      style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+                    <div
+                      className="w-12 h-12 rounded-xl flex items-center justify-center flex-shrink-0"
+                      style={{
+                        background: item.gradient,
+                        boxShadow: isDark ? `0 6px 20px ${item.glow}` : `0 4px 15px ${item.glow}`,
+                      }}
                     >
-                      {item.value}
-                    </p>
-                  </div>
-                </motion.a>
+                      <Icon size={20} className="text-white" />
+                    </div>
+                    <div>
+                      <p className={`text-xs font-medium mb-0.5 ${isDark ? 'text-gray-500' : 'text-gray-400'}`}>
+                        {item.label}
+                      </p>
+                      <p
+                        className={`text-sm font-semibold break-all ${isDark ? 'text-gray-200' : 'text-gray-800'}`}
+                        style={{ fontFamily: "'Space Grotesk', sans-serif" }}
+                      >
+                        {item.value}
+                      </p>
+                    </div>
+                  </a>
+
+                  {/* 1-Click Copy Button */}
+                  <button
+                    onClick={e => handleCopy(item.copyValue, item.label, e)}
+                    className="p-2.5 rounded-xl hover:bg-black/10 dark:hover:bg-white/10 text-gray-400 hover:text-purple-400 transition-colors"
+                    title={`Copy ${item.label}`}
+                  >
+                    {isCopied ? <Check size={16} className="text-green-400" /> : <Copy size={16} />}
+                  </button>
+                </motion.div>
               );
             })}
 
@@ -299,11 +348,38 @@ export function Contact() {
               }}
             >
               <h3
-                className={`text-xl font-bold mb-6 ${isDark ? 'text-white' : 'text-gray-900'}`}
+                className={`text-xl font-bold mb-4 ${isDark ? 'text-white' : 'text-gray-900'}`}
                 style={{ fontFamily: "'Space Grotesk', sans-serif" }}
               >
                 Send Me a Message
               </h3>
+
+              {/* Subject Presets Pills */}
+              <div className="mb-6">
+                <p className={`text-xs mb-2.5 font-medium ${isDark ? 'text-gray-400' : 'text-gray-500'}`}>
+                  Quick subject presets:
+                </p>
+                <div className="flex flex-wrap gap-2">
+                  {presets.map(preset => (
+                    <button
+                      key={preset.label}
+                      type="button"
+                      onClick={() => setFormData(prev => ({ ...prev, subject: preset.text }))}
+                      className={`text-xs px-3 py-1.5 rounded-full font-medium transition-all ${
+                        formData.subject === preset.text
+                          ? isDark
+                            ? 'bg-purple-600 text-white shadow-md'
+                            : 'bg-blue-600 text-white shadow-md'
+                          : isDark
+                          ? 'bg-white/5 hover:bg-white/10 text-gray-300 border border-white/10'
+                          : 'bg-black/5 hover:bg-black/10 text-gray-700 border border-black/10'
+                      }`}
+                    >
+                      {preset.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
 
               <form onSubmit={handleSubmit} className="space-y-5">
                 <div className="grid sm:grid-cols-2 gap-5">
@@ -408,7 +484,7 @@ export function Contact() {
                     name="message"
                     value={formData.message}
                     onChange={handleChange}
-                    rows={5}
+                    rows={4}
                     placeholder="Tell me about your project, idea, or just say hello..."
                     style={{
                       ...inputStyle,
@@ -442,7 +518,7 @@ export function Contact() {
                   disabled={isSubmitting || isSubmitted}
                   whileHover={!isSubmitting && !isSubmitted ? { scale: 1.02, y: -2 } : {}}
                   whileTap={!isSubmitting && !isSubmitted ? { scale: 0.98 } : {}}
-                  className="w-full flex items-center justify-center gap-3 py-4 rounded-2xl text-white font-semibold transition-all duration-300"
+                  className="w-full flex items-center justify-center gap-3 py-4 rounded-2xl text-white font-semibold transition-all duration-300 shadow-xl"
                   style={{
                     background: isSubmitted
                       ? 'linear-gradient(135deg, #10b981, #059669)'
@@ -459,7 +535,7 @@ export function Contact() {
                   {isSubmitting ? (
                     <>
                       <Loader size={20} className="animate-spin" />
-                      Sending...
+                      Sending Message...
                     </>
                   ) : isSubmitted ? (
                     <>
