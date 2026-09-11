@@ -17,6 +17,9 @@ export default defineConfig({
     },
   },
 
+  // Allow exposing WEB3FORMS_KEY in addition to VITE_
+  envPrefix: ['VITE_', 'WEB3FORMS_'],
+
   // File types to support raw imports. Never add .css, .tsx, or .ts files to this.
   assetsInclude: ['**/*.svg', '**/*.csv'],
 })

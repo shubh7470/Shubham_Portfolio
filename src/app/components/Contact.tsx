@@ -76,18 +76,64 @@ export function Contact() {
     if (!validate()) return;
 
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 1800));
-    setIsSubmitting(false);
-    setIsSubmitted(true);
 
-    toast.success('Message sent successfully! 🎉', {
-      description: "I'll get back to you within 24 hours.",
-    });
+    try {
+      // Live Email Integration (Web3Forms API)
+      const web3Key = import.meta.env.VITE_WEB3FORMS_KEY || import.meta.env.WEB3FORMS_KEY || '';
+      
+      if (web3Key) {
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+          },
+          body: JSON.stringify({
+            access_key: web3Key,
+            name: formData.name,
+            email: formData.email,
+            subject: formData.subject,
+            message: formData.message,
+            from_name: 'Portfolio Visitor',
+          }),
+        });
 
-    setTimeout(() => {
-      setIsSubmitted(false);
-      setFormData({ name: '', email: '', subject: '', message: '' });
-    }, 3000);
+        const result = await response.json();
+        if (result.success) {
+          setIsSubmitted(true);
+          toast.success('Message sent successfully! 🎉', {
+            description: "I'll get back to you within 24 hours.",
+          });
+          setTimeout(() => {
+            setIsSubmitted(false);
+            setFormData({ name: '', email: '', subject: '', message: '' });
+          }, 3000);
+          return;
+        }
+      }
+
+      // Fallback: Direct Mailto redirect so form works 100% of the time instantly!
+      const mailtoSubject = encodeURIComponent(`[Portfolio Contact] ${formData.subject}`);
+      const mailtoBody = encodeURIComponent(`Hi Shubham,\n\nName: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
+      window.location.href = `mailto:shubhammourya7470@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
+      
+      setIsSubmitted(true);
+      toast.success('Opening your mail app to send email! 📧', {
+        description: 'Your message has been formatted.',
+      });
+
+      setTimeout(() => {
+        setIsSubmitted(false);
+        setFormData({ name: '', email: '', subject: '', message: '' });
+      }, 3000);
+    } catch (err) {
+      const mailtoSubject = encodeURIComponent(`[Portfolio Contact] ${formData.subject}`);
+      const mailtoBody = encodeURIComponent(`Hi Shubham,\n\nName: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`);
+      window.location.href = `mailto:shubhammourya7470@gmail.com?subject=${mailtoSubject}&body=${mailtoBody}`;
+      toast.success('Opening mail app! 📧');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
